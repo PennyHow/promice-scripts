@@ -281,5 +281,5 @@ ax_inset3.text(extent3[0]+0.005, extent3[3]-0.01, "i", fontsize=fsize1, transfor
 # Show/save
 plt.subplots_adjust(wspace=0.2, hspace=0.1)#, left=0.1, right=0.75)
 #plt.tight_layout()
-plt.show()
-#plt.savefig('/home/pho/Desktop/promice_temp_cloud.png', dpi=300)
+#plt.show()
+plt.savefig('out/promice_temp_cloud.png', dpi=300)

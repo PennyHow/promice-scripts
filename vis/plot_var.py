@@ -14,11 +14,12 @@ import matplotlib.pyplot as plt
 
 if __name__ == '__main__':
     """Executed from the command line"""
-    station = "SER_B"
-    variable = "usr_cor"
+    station = "NSE"
+    variable = "wspd_i"
 
-    infile1 = "https://thredds.geus.dk/thredds/dodsC/aws/l3sites/netcdf/hour/" + station + "_hour.nc"
+    # infile1 = "https://thredds.geus.dk/thredds/dodsC/aws/l3sites/netcdf/hour/" + station + "_hour.nc"
     # infile1 = "https://test-thredds.geus.dk/thredds/dodsC/aws/l2stations/netcdf/hour/" + station + "_hour.nc"
+    infile1 = '/home/pho/Desktop/NSE/NSE_hour.nc'
     ds = xr.open_dataset(infile1)
 
     print('Plotting ' + station + ' ' + variable)
