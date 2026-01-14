@@ -10,7 +10,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 # Define station file location
-infile = 'https://thredds.geus.dk/thredds/fileServer/aws_l3_station_csv/level_3/NUK_K/NUK_K_hour.csv'
+infile = 'https://thredds.geus.dk/thredds/fileServer/aws/l3sites/csv/hour/NUK_K_hour.csv'
 
 # Load file     
 name = infile.split('/')[-1].split('_hour')[0]
@@ -33,7 +33,7 @@ max_pdd=0
 
 # Define color ramp
 colors=['#7e4794','#36b700','#ff73b6','#c701ff','#4ecb8d','#ff9d3a',
-        '#f9e858','#d83034','#c8c8c8','#f0c571']  
+        '#f9e858','#d83034','#c8c8c8','#f0c571', '#000000']  
 
 
 # Start plot

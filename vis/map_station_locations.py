@@ -14,6 +14,7 @@ import cartopy.feature as cfeature
 from cartopy.geodesic import Geodesic
 import cartopy.crs as ccrs
 import numpy as np
+import pandas as pd
 from matplotlib.lines import Line2D
 
 # Prime plot layout
@@ -33,7 +34,7 @@ stations = [ #GC-Net
             'FRE','LYN_L','LYN_T','NUK_K','ZAC_A','ZAC_L','ZAC_U',
             #PROMICE
             'KAN_B','KAN_L','KAN_M','KAN_T','KAN_U','KPC_L','KPC_U','MIT',
-            'NUK_B','NUK_L','NUK_N','NUK_U','QAS_A','QAS_L','QAS_M',
+            'NUK_B','NUK_L','NUK_U','QAS_A','QAS_L','QAS_M', #'NUK_N',
             'QAS_U','SCO_L', 'SCO_U','TAS_A', 'TAS_L', 'TAS_U','THU_L',
             'THU_L2', 'THU_U','UPE_L','UPE_U',
             #External
@@ -148,8 +149,12 @@ for s in range(len(stations)):
         style='^'
         color=glaciobasis_color
     else:
-        style='o'
-        color=promice_color
+        if stations[s]=='KAN_U':
+            style = 's'
+            color = gcnet_color
+        else:
+            style='o'
+            color=promice_color
 
     # Plot station location on map
     lat = float(ds.latitude)
@@ -157,8 +162,10 @@ for s in range(len(stations)):
     ax_map.plot(lon, lat, style, markeredgecolor='k', transform=ccrs.PlateCarree(),
                 label=ds.attrs['project'].upper(), color=color, markersize=pt_size, zorder=3)
 
+    # Reassign name for labelling
+    station_name = stations[s].replace('_', '-')
     # Useful print statements
-    print(stations[s])
+    print(station_name)
     print(ds.attrs['project'])
     print(lon)
     print(lat)
@@ -169,7 +176,7 @@ for s in range(len(stations)):
         print('Plotting location to ax_inset1')
         ax_inset1.plot(lon, lat, style, markeredgecolor='k', transform=ccrs.PlateCarree(),
                        color=color, markersize=pt_size)
-        ax_inset1.text(lon+0.04, lat-0.01, stations[s], fontsize=fsize2, transform=ccrs.PlateCarree())
+        ax_inset1.text(lon+0.04, lat-0.01, station_name, fontsize=fsize2, transform=ccrs.PlateCarree())
 
     # Plot in NUK inset map
     elif extent2[0] <= lon <= extent2[1] and extent2[2] <= lat <= extent2[3]:
@@ -177,13 +184,13 @@ for s in range(len(stations)):
         ax_inset2.plot(lon, lat, style, markeredgecolor='k', transform=ccrs.PlateCarree(),
                        color=color, markersize=pt_size)
         if stations[s]=="NUK_L":
-            ax_inset2.text(lon-0.35, lat-0.12, stations[s], fontsize=fsize2, transform=ccrs.PlateCarree())
+            ax_inset2.text(lon-0.35, lat-0.12, station_name, fontsize=fsize2, transform=ccrs.PlateCarree())
         elif stations[s]=="NUK_K":
-            ax_inset2.text(lon, lat+0.08, stations[s], fontsize=fsize2, transform=ccrs.PlateCarree())
+            ax_inset2.text(lon, lat+0.08, station_name, fontsize=fsize2, transform=ccrs.PlateCarree())
         elif stations[s]=="NUK_U":
-            ax_inset2.text(lon-0.65, lat+0.15, stations[s], fontsize=fsize2, transform=ccrs.PlateCarree())
+            ax_inset2.text(lon-0.65, lat+0.15, station_name, fontsize=fsize2, transform=ccrs.PlateCarree())
         else:
-            ax_inset2.text(lon-0.3, lat+0.08, stations[s], fontsize=fsize2, transform=ccrs.PlateCarree())
+            ax_inset2.text(lon-0.3, lat+0.08, station_name, fontsize=fsize2, transform=ccrs.PlateCarree())
 
     # Plot in KAN inset map
     elif extent3[0] <= lon <= extent3[1] and extent3[2] <= lat <= extent3[3]:
@@ -191,15 +198,15 @@ for s in range(len(stations)):
         ax_inset3.plot(lon, lat, style, markeredgecolor='k', transform=ccrs.PlateCarree(),
                        color=color, markersize=pt_size)
         if stations[s] =="KAN_U":
-            ax_inset3.text(lon-0.4, lat+0.04, stations[s], fontsize=fsize2, transform=ccrs.PlateCarree())
+            ax_inset3.text(lon-0.4, lat+0.04, station_name, fontsize=fsize2, transform=ccrs.PlateCarree())
         elif stations[s]  == "KAN_M":
-            ax_inset3.text(lon - 0.3, lat+0.05, stations[s], fontsize=fsize2, transform=ccrs.PlateCarree())
+            ax_inset3.text(lon - 0.3, lat+0.05, station_name, fontsize=fsize2, transform=ccrs.PlateCarree())
         elif stations[s]  == "KAN_L":
-            ax_inset3.text(lon-0.3, lat-0.1, stations[s], fontsize=fsize2, transform=ccrs.PlateCarree())
+            ax_inset3.text(lon-0.3, lat-0.1, station_name, fontsize=fsize2, transform=ccrs.PlateCarree())
         elif stations[s]  == "KAN_B":
-            ax_inset3.text(lon-0.55, lat-0.02, stations[s], fontsize=fsize2, transform=ccrs.PlateCarree())
+            ax_inset3.text(lon-0.55, lat-0.02, station_name, fontsize=fsize2, transform=ccrs.PlateCarree())
         else: #KAN_T
-            ax_inset3.text(lon-0.2, lat + 0.04, stations[s], fontsize=fsize2, transform=ccrs.PlateCarree())
+            ax_inset3.text(lon-0.2, lat + 0.04, station_name, fontsize=fsize2, transform=ccrs.PlateCarree())
 
     # Plot in THU inset map
     elif extent4[0] <= lon <= extent4[1] and extent4[2] <= lat <= extent4[3]:
@@ -207,59 +214,83 @@ for s in range(len(stations)):
         ax_inset4.plot(lon, lat, style, markeredgecolor='k', transform=ccrs.PlateCarree(), color=color,
                        markersize=pt_size)
         if stations[s] =="THU_L2":
-            ax_inset4.text(lon-0.03, lat-0.008, stations[s], fontsize=fsize2, transform=ccrs.PlateCarree())
+            ax_inset4.text(lon-0.03, lat-0.008, station_name, fontsize=fsize2, transform=ccrs.PlateCarree())
         elif stations[s] =="THU_L":
-            ax_inset4.text(lon-0.03, lat+0.005, stations[s], fontsize=fsize2, transform=ccrs.PlateCarree())
+            ax_inset4.text(lon-0.03, lat+0.005, station_name, fontsize=fsize2, transform=ccrs.PlateCarree())
         else: #station_name=="THU_U:
-            ax_inset4.text(lon-0.03, lat+0.005, stations[s], fontsize=fsize2, transform=ccrs.PlateCarree())
+            ax_inset4.text(lon-0.03, lat+0.005, station_name, fontsize=fsize2, transform=ccrs.PlateCarree())
 
     # Define station names in main map
     else:
 
         if stations[s]=="KPC_U":
-            ax_map.text(lon-10, lat-0.4, stations[s], fontsize=fsize2, transform=ccrs.PlateCarree())
+            ax_map.text(lon-10, lat-0.4, station_name, fontsize=fsize2, transform=ccrs.PlateCarree())
         elif stations[s] == "KPC_L":
-            ax_map.text(lon+1.9, lat+0.2, stations[s], fontsize=fsize2, transform=ccrs.PlateCarree())
+            ax_map.text(lon+1.9, lat+0.2, station_name, fontsize=fsize2, transform=ccrs.PlateCarree())
         elif stations[s] == "SCO_U":
-            ax_map.text(lon-6.5, lat+0.7, stations[s], fontsize=fsize2, transform=ccrs.PlateCarree())
+            ax_map.text(lon-6.5, lat+0.7, station_name, fontsize=fsize2, transform=ccrs.PlateCarree())
         elif stations[s]== "SCO_L":
-            ax_map.text(lon-1.5, lat-0.6, stations[s], fontsize=fsize2, transform=ccrs.PlateCarree())
+            ax_map.text(lon-1.5, lat-0.6, station_name, fontsize=fsize2, transform=ccrs.PlateCarree())
         elif stations[s]== "UPE_U":
-            ax_map.text(lon+0.9, lat-0.3, stations[s], fontsize=fsize2, transform=ccrs.PlateCarree())
+            ax_map.text(lon+0.9, lat-0.3, station_name, fontsize=fsize2, transform=ccrs.PlateCarree())
         elif stations[s]== "UPE_L":
-            ax_map.text(lon-6, lat-0.8, stations[s], fontsize=fsize2, transform=ccrs.PlateCarree())
+            ax_map.text(lon-6, lat-0.8, station_name, fontsize=fsize2, transform=ccrs.PlateCarree())
         elif stations[s]== "TAS_A":
-            ax_map.text(lon-4, lat-1.8, stations[s], fontsize=fsize2, transform=ccrs.PlateCarree())
+            ax_map.text(lon-4, lat-1.8, station_name, fontsize=fsize2, transform=ccrs.PlateCarree())
         elif stations[s]== "TAS_L":
-            ax_map.text(lon-4, lat-1.1, stations[s], fontsize=fsize2, transform=ccrs.PlateCarree())
+            ax_map.text(lon-4, lat-1.1, station_name, fontsize=fsize2, transform=ccrs.PlateCarree())
         elif stations[s]== "TAS_U":
-            ax_map.text(lon-4, lat-0.6, stations[s], fontsize=fsize2, transform=ccrs.PlateCarree())
+            ax_map.text(lon-4, lat-0.6, station_name, fontsize=fsize2, transform=ccrs.PlateCarree())
         elif stations[s] == "DY2" or stations[s] == "SDL" or stations[s] == "EGP" or stations[s] == "JAR":
-            ax_map.text(lon-1.5, lat-0.7, stations[s], fontsize=fsize2, transform=ccrs.PlateCarree())
+            ax_map.text(lon-1.5, lat-0.7, station_name, fontsize=fsize2, transform=ccrs.PlateCarree())
         elif stations[s] == "NSE":
-            ax_map.text(lon-1.1, lat+0.4, stations[s], fontsize=fsize2, transform=ccrs.PlateCarree())
+            ax_map.text(lon-1.1, lat+0.4, station_name, fontsize=fsize2, transform=ccrs.PlateCarree())
         elif stations[s] == "LYN":
-            ax_map.text(lon-1.1, lat+0.5, stations[s], fontsize=fsize2, transform=ccrs.PlateCarree())
+            ax_map.text(lon-1.1, lat+0.5, station_name, fontsize=fsize2, transform=ccrs.PlateCarree())
         elif stations[s] == "SWC":
-            ax_map.text(lon-2.3, lat+0.35, stations[s], fontsize=fsize2, transform=ccrs.PlateCarree())
+            ax_map.text(lon-2.3, lat+0.35, station_name, fontsize=fsize2, transform=ccrs.PlateCarree())
         elif stations[s] == "ZAC_U":
-            ax_map.text(lon-6, lat+1.5, stations[s], fontsize=fsize2, transform=ccrs.PlateCarree())
+            ax_map.text(lon-6, lat+1.5, station_name, fontsize=fsize2, transform=ccrs.PlateCarree())
         elif stations[s] == "ZAC_L":
-            ax_map.text(lon-6, lat+0.8, stations[s], fontsize=fsize2, transform=ccrs.PlateCarree())
+            ax_map.text(lon-6, lat+0.8, station_name, fontsize=fsize2, transform=ccrs.PlateCarree())
         elif stations[s] == "FRE":
-            ax_map.text(lon+1.2, lat-0.5, stations[s], fontsize=fsize2, transform=ccrs.PlateCarree())
+            ax_map.text(lon+1.2, lat-0.5, station_name, fontsize=fsize2, transform=ccrs.PlateCarree())
         elif stations[s] == "ZAC_A":
-            ax_map.text(lon+1.3, lat+0.1, stations[s], fontsize=fsize2, transform=ccrs.PlateCarree())
+            ax_map.text(lon+1.3, lat+0.1, station_name, fontsize=fsize2, transform=ccrs.PlateCarree())
         elif stations[s] == "LYN_T":
-            ax_map.text(lon-3.2, lat-1, stations[s], fontsize=fsize2, transform=ccrs.PlateCarree())
+            ax_map.text(lon-3.2, lat-1, station_name, fontsize=fsize2, transform=ccrs.PlateCarree())
         elif stations[s] == "LYN_L":
-            ax_map.text(lon-4, lat+0.15, stations[s], fontsize=fsize2, transform=ccrs.PlateCarree())
+            ax_map.text(lon-4, lat+0.15, station_name, fontsize=fsize2, transform=ccrs.PlateCarree())
         elif stations[s] == "SDM":
-            ax_map.text(lon+0.8, lat-0.5, stations[s], fontsize=fsize2, transform=ccrs.PlateCarree())
+            ax_map.text(lon+0.8, lat-0.5, station_name, fontsize=fsize2, transform=ccrs.PlateCarree())
         elif stations[s] == "JAR":
-            ax_map.text(lon-1.5, lat-1.2, stations[s], fontsize=fsize2, transform=ccrs.PlateCarree())
+            ax_map.text(lon-1.5, lat-1.2, station_name, fontsize=fsize2, transform=ccrs.PlateCarree())
         else:
-            ax_map.text(lon+1.1, lat-0.5, stations[s], fontsize=fsize2, transform=ccrs.PlateCarree())
+            ax_map.text(lon+1.1, lat-0.5, station_name, fontsize=fsize2, transform=ccrs.PlateCarree())
+
+# Manually add Summit and Petermann stations from local files
+# Open file as xarray dataset
+infs = ["Summit_daily.csv", "PetermannGlacier_daily.csv", "PetermannELA_daily.csv"]
+skip=[21, 20, 21]
+names = ["SUM", "PET", "PET-ELA"]
+for i in range(len(infs)):
+    print('Opening '+infs[i])
+    df = pd.read_csv(infs[i], skiprows=skip[i], header=0)
+    style='s'
+    color=gcnet_color
+    lat = float(list(df['lat'])[-1])
+    lon = float(list(df['lon'])[-1])
+    ax_map.plot(lon, lat, style, markeredgecolor='k', transform=ccrs.PlateCarree(),
+                label='GC-Net', color=color, markersize=pt_size, zorder=3)
+    if names[i] == "PET":
+        ax_map.text(lon+1.8, lat-0.2, names[i], fontsize=fsize2, transform=ccrs.PlateCarree())
+    elif names[i] == "PET-ELA":
+        ax_map.text(lon+1.1, lat-0.6, names[i], fontsize=fsize2, transform=ccrs.PlateCarree())
+    else:
+        ax_map.text(lon+1.1, lat-0.5, names[i], fontsize=fsize2, transform=ccrs.PlateCarree())
+    print(names[i])
+    print(lon)
+    print(lat)
 
 
 # Add scalebars to maps
@@ -307,5 +338,6 @@ ax_map.legend(loc=2, handles=[pt1, pt2, pt3], fontsize=fsize3)
 # Show/save
 plt.subplots_adjust(wspace=0.2, hspace=0.1, left=0.3, right=0.99)
 #plt.tight_layout()
-#plt.show()
-plt.savefig('/home/pho/Desktop/promice_station_locations.png', dpi=300)
+plt.show()
+#plt.savefig('/home/pho/Desktop/promice_station_locations.pdf', dpi=600)
+#plt.savefig('/home/pho/Desktop/promice_station_locations.png', dpi=600)

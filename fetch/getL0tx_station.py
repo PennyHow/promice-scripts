@@ -21,7 +21,7 @@ except:
     from pypromice.tx import getMail, L0tx, sortLines
     
 # toml_list = list(glob('/home/pho/python_workspace/promice/aws-l0/tx/config/*.toml'))
-toml_list = ['/data/aws-ops/aws-l0/tx/config/WEG_B.toml']
+toml_list = ['/data/aws-ops/aws-l0/tx/config/QAS_Lv3.toml']
 aws={}
 for t in toml_list:
     conf = toml.load(t)
@@ -43,18 +43,18 @@ print(aws)
 #------------------------------------------------------------------------------
 
 # Set payload formatter paths
-formatter_file = '../tx/payload_formats.csv'
-type_file = '../tx/payload_types.csv'
+formatter_file = '/data/aws-ops/pypromice/src/pypromice/tx/payload_formats.csv'
+type_file = '/data/aws-ops/pypromice/src/pypromice/tx/payload_types.csv'
 
 # Set credential paths
-accounts_file = 'credentials/accounts.ini'
-credentials_file = "credentials/credentials.ini" 
+accounts_file = '../credentials/accounts.ini'
+credentials_file = "../credentials/credentials.ini"
 
 # Set modem names path
 imei_file = 'credentials/imei2name.ini'  
 
 # Set last aws uid path
-last_uid = 2321684
+last_uid =  2519287
 
 # Logger program path
 # programs_dir = 'logger_programs/Freya2015.CR1'

@@ -9,19 +9,23 @@ import math,datetime,random
 import pandas as pd
 import matplotlib.pyplot as plt
 
+plt.rcParams["font.family"] = "arial"
+
 # Define station files
 infile = [
     # ['https://thredds.geus.dk/thredds/fileServer/aws_l3_station_csv/level_3/CEN1/CEN1_hour.csv',
     # 'https://thredds.geus.dk/thredds/fileServer/aws_l3_station_csv/level_3/CEN2/CEN2_hour.csv'],
-    # ['https://thredds.geus.dk/thredds/fileServer/aws_l3_station_csv/level_3/HUM/HUM_hour.csv'],
+    ['https://thredds.geus.dk/thredds/fileServer/aws/l3sites/csv/hour/HUM_hour.csv'],
     # ['https://thredds.geus.dk/thredds/fileServer/aws_l3_station_csv/level_3/NEM/NEM_hour.csv'],
     # ['https://thredds.geus.dk/thredds/fileServer/aws_l3_station_csv/level_3/NUK_U/NUK_U_hour.csv',
     # 'https://thredds.geus.dk/thredds/fileServer/aws_l3_station_csv/level_3/NUK_Uv3/NUK_Uv3_hour.csv']
     # ['https://thredds.geus.dk/thredds/fileServer/aws_l3_station_csv/level_3/THU_U/THU_U_hour.csv',
     # 'https://thredds.geus.dk/thredds/fileServer/aws_l3_station_csv/level_3/THU_U2/THU_U2_hour.csv']
+    ['https://thredds.geus.dk/thredds/fileServer/aws/l3sites/csv/hour/THU_L_hour.csv',
+    'https://thredds.geus.dk/thredds/fileServer/aws/l3sites/csv/hour/THU_L2_hour.csv']
 
-    ['/home/pho/Downloads/HUM_hour.csv'],
-    ['/home/pho/Downloads/THU_L_hour.csv', '/home/pho/Downloads/THU_L2_hour.csv']
+#    ['/home/pho/Downloads/HUM_hour.csv'],
+#    ['/home/pho/Downloads/THU_L_hour.csv', '/home/pho/Downloads/THU_L2_hour.csv']
     ]
 
 
@@ -211,7 +215,7 @@ for inf in infile:
     # Show and save
     fig.align_ylabels(ax)
     # plt.show()
-    plt.savefig(name.split('/')[0]+'_all_years_temperature.jpg', dpi=300)
+    plt.savefig(name.split('/')[0]+'_all_years_temperature.png', dpi=300)
     
     # print(first)
     for f,p in zip(first,pddmax):
