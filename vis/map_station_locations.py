@@ -331,13 +331,13 @@ pt1 = Line2D([0], [0], label='GC-Net station', marker='s', markersize=pt_size,
          markeredgecolor='k', markerfacecolor=gcnet_color, linestyle='')
 pt2 = Line2D([0], [0], label='PROMICE station', marker='o', markersize=pt_size,
          markeredgecolor='k', markerfacecolor=promice_color, linestyle='')
-pt3 = Line2D([0], [0], label='GlacioBasis station', marker='^', markersize=pt_size,
+pt3 = Line2D([0], [0], label='GlacioBasis/Asiaq station', marker='^', markersize=pt_size,
          markeredgecolor='k', markerfacecolor=glaciobasis_color, linestyle='')
 ax_map.legend(loc=2, handles=[pt1, pt2, pt3], fontsize=fsize3)
 
 # Show/save
 plt.subplots_adjust(wspace=0.2, hspace=0.1, left=0.3, right=0.99)
 #plt.tight_layout()
-plt.show()
+#plt.show()
 #plt.savefig('/home/pho/Desktop/promice_station_locations.pdf', dpi=600)
-#plt.savefig('/home/pho/Desktop/promice_station_locations.png', dpi=600)
+plt.savefig('/home/pho/Desktop/promice_station_locations.png', dpi=600)

@@ -1,4 +1,10 @@
 __pycache__/
+credentials/
+*.pdf
+*.csv
+*.txt
+*.nc
 *.jpg
 *.png
+*.zip
 vis/out/*
