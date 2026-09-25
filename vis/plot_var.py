@@ -14,20 +14,24 @@ import matplotlib.pyplot as plt
 
 if __name__ == '__main__':
     """Executed from the command line"""
-    station = "KAN_U"
-    variable = "z_boom_cor_u"
+    station = "KAN_B"
+    res = "hour"
+    variable = "rainfall_u"
 
-    infile1 = "https://thredds.geus.dk/thredds/dodsC/aws/l3sites/netcdf/hour/" + station + "_hour.nc"
-    # infile1 = "https://test-thredds.geus.dk/thredds/dodsC/aws/l2stations/netcdf/hour/" + station + "_hour.nc"
+    infile1 = "https://thredds.geus.dk/thredds/dodsC/aws/l3sites/netcdf/" + res + "/" + station + "_" + res + ".nc"
+    # infile1 = "https://thredds.geus.dk/thredds/dodsC/aws/l2stations/netcdf/" + res + "/" + station + "_" + res + ".nc"
+    # infile1 = "https://thredds.geus.dk/thredds/dodsC/aws/l2stations/netcdf/" + res + "/" + station + "_" + res + ".nc"
     # infile1 = '/home/pho/Desktop/NSE/NSE_hour.nc'
+
     ds = xr.open_dataset(infile1)
     print(list(ds.variables))
     print(ds)
 
     print('Plotting ' + station + ' ' + variable)
+    print(ds[variable].ffill(dim='time').isel(time=-1).values)
     ds[variable].plot()
     plt.show()
-    
+
 else:
     """Executed on import"""
     pass

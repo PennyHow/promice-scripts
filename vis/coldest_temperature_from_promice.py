@@ -22,24 +22,55 @@ stations = [ #GC-Net
             'RED_L','SER_B','ORO','WEG_B','WEG_L'
             ]
 
+# # Plot station location
+# coldest_temperatures=[]
+# for s in range(len(stations)):
+#
+#     # Open file as xarray dataset
+#     inf = "https://thredds.geus.dk/thredds/dodsC/aws/l3sites/netcdf/hour/" + stations[s] + "_hour.nc"
+#     ds = xr.open_dataset(inf)
+#
+#     temp = float(ds["t_u"].min())
+#     t = ds["t_u"].idxmin(dim="time").values
+#
+#     if "t_l" in ds:
+#         temp_l = float(ds["t_l"].min())
+#         t_l = ds["t_l"].idxmin(dim="time").values
+#         if temp_l < temp:
+#             temp = temp_l
+#             t = t_l
+#
+#     print(f"{stations[s]}: {temp} ({t})")
+#     coldest_temperatures.append([stations[s],t,temp])
+
+# # Plot station location
+# warmest_temperatures=[]
+# for s in range(len(stations)):
+#
+#     # Open file as xarray dataset
+#     inf = "https://thredds.geus.dk/thredds/dodsC/aws/l3sites/netcdf/hour/" + stations[s] + "_hour.nc"
+#     ds = xr.open_dataset(inf)
+#
+#     temp = float(ds["t_u"].max())
+#     t = ds["t_u"].idxmax(dim="time").values
+#
+#     if "t_l" in ds:
+#         temp_l = float(ds["t_l"].max())
+#         t_l = ds["t_l"].idxmax(dim="time").values
+#         if temp_l > temp:
+#             temp = temp_l
+#             t = t_l
+#
+#     print(f"{stations[s]}: {temp} ({t})")
+#     warmest_temperatures.append([stations[s],t,temp])
+
 # Plot station location
-coldest_temperatures=[]
 for s in range(len(stations)):
 
     # Open file as xarray dataset
     inf = "https://thredds.geus.dk/thredds/dodsC/aws/l3sites/netcdf/hour/" + stations[s] + "_hour.nc"
     ds = xr.open_dataset(inf)
 
-    temp = float(ds["t_u"].min())
-    t = ds["t_u"].idxmin(dim="time").values
+    first = list(ds["time"].values)[0]
 
-    if "t_l" in ds:
-        temp_l = float(ds["t_l"].min())
-        t_l = ds["t_l"].idxmin(dim="time").values
-        if temp_l < temp:
-            temp = temp_l
-            t = t_l
-
-    print(f"{stations[s]}: {temp} ({t})")
-    coldest_temperatures.append([stations[s],t,temp])
-
+    print(f"{stations[s]}: {first}")

@@ -100,6 +100,6 @@ pt_size=8
 # Show/save
 plt.subplots_adjust(wspace=0.2, hspace=0.1, left=0.1, right=0.9)
 #plt.tight_layout()
-#plt.show()
-plt.savefig('greenland_basemap.pdf', dpi=600, bbox_inches="tight")
-plt.savefig('greenland_basemap.png', dpi=600)
+plt.show()
+# plt.savefig('greenland_basemap.pdf', dpi=600, bbox_inches="tight")
+# plt.savefig('greenland_basemap.png', dpi=600)

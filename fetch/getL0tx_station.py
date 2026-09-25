@@ -14,14 +14,11 @@ import os, imaplib, email, re, toml, sys
 from glob import glob
 from datetime import datetime, timedelta
 
-try:
-    sys.path.append('../')
-    from tx import getMail, L0tx, sortLines
-except:
-    from pypromice.tx import getMail, L0tx, sortLines
+from pypromice.tx.tx import getMail, L0tx
+from pypromice.tx.get_l0tx import sortLines
     
 # toml_list = list(glob('/home/pho/python_workspace/promice/aws-l0/tx/config/*.toml'))
-toml_list = ['/data/aws-ops/aws-l0/tx/config/QAS_Lv3.toml']
+toml_list = ['/home/pho/aws-env/aws-ops/aws-l0/tx/config/NUK_Lv3.toml']
 aws={}
 for t in toml_list:
     conf = toml.load(t)
@@ -43,18 +40,21 @@ print(aws)
 #------------------------------------------------------------------------------
 
 # Set payload formatter paths
-formatter_file = '/data/aws-ops/pypromice/src/pypromice/tx/payload_formats.csv'
-type_file = '/data/aws-ops/pypromice/src/pypromice/tx/payload_types.csv'
+formatter_file = '/home/pho/aws-env/pypromice/src/pypromice/resources/payload_formats.csv'
+type_file = '/home/pho/aws-env/pypromice/src/pypromice/resources/payload_types.csv'
 
 # Set credential paths
 accounts_file = '../credentials/accounts.ini'
 credentials_file = "../credentials/credentials.ini"
 
-# Set modem names path
-imei_file = 'credentials/imei2name.ini'  
-
 # Set last aws uid path
-last_uid =  2519287
+# Fastmail
+last_uid =  340400
+mailbox_name="INBOX"
+
+# Gmail geus.aws
+#last_uid =  2784000
+#mailbox_name = '"[Gmail]/All Mail"'
 
 # Logger program path
 # programs_dir = 'logger_programs/Freya2015.CR1'
@@ -62,7 +62,7 @@ last_uid =  2519287
 # print('parsing %s for message formats' % programs_dir)  
 
 # Set output file directory
-out_dir = '/data/aws-ops/aws-l0/tx'
+out_dir = '/home/pho/aws-env/aws-ops/aws-l0/tx'
 if not os.path.exists(out_dir):
     os.mkdir(out_dir)
 # out_dir=None
@@ -93,7 +93,7 @@ if typ != 'OK':
     raise
     
 # Grab new emails
-result, data = mail_server.select(mailbox='"[Gmail]/All Mail"', readonly=True)
+result, data = mail_server.select(mailbox=mailbox_name, readonly=True)
 print('mailbox contains %s messages' %data[0])
 
 #------------------------------------------------------------------------------
